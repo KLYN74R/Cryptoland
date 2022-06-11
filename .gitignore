@@ -2,3 +2,8 @@
 *.exe
 *.dll
 build
+
+
+target
+dist
+node_modules
