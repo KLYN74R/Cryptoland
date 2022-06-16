@@ -65,7 +65,9 @@ export default {
             verifiedSignature=await bls.verify(aggregatedSignaIn,data,signersIn)
 
 
-        return verifiedSignature && generalPubKey === originalGroupPub && pubKeysIn.length+pubKeysOut.length === n && pubKeysIn.length === m
+            return verifiedSignature && generalPubKey === originalGroupPub
+            && 
+            (m || pubKeysIn.length+pubKeysOut.length === n && pubKeysIn.length === m)//if m and n are undefined-we don't interest in number of participants
     
     },
 
