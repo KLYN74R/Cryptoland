@@ -77,6 +77,7 @@ export default {
         if(!isVerified) console.log(`\n\n\x1b[31mInvalid\x1b[0m share received from user with verification vector ${hexSomeSignerVerificationVector}`)
         else console.log(`\n\nShare ${hexSomeSignerSecretKeyContribution} is \x1b[32mvalid\x1b[0m - please,store it`) 
      
+        return isVerified
         //Store shares somewhere with information who send(which id) has sent this share for you
     
     },    
@@ -166,7 +167,7 @@ export default {
     
     /*
 
-        signaturesArray - [ {sigShare:signedShare1,id:hexId1}, {sigShare:signedShare2,id:hexId2},... {sigShare:signedShareN,id:hexIdN} ]
+        signaturesArray - [ {sigShare:signedShareA,id:hexIdA}, {sigShare:signedShareB,id:hexIdB},... {sigShare:signedShareX,id:hexIdX} ]
 
     */
     buildSignature:signaturesArray=>{
@@ -196,9 +197,11 @@ export default {
 
     verifyTBLS:(hexGroupPubKey,hexSignature,signedMessage)=>{
 
+
         let groupPubKey=blsA.deserializeHexStrToPublicKey(hexGroupPubKey),
 
             verified=groupPubKey.verify(blsA.deserializeHexStrToSignature(hexSignature),signedMessage)
+
 
         return verified
 
