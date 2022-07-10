@@ -1,14 +1,12 @@
-use pqcrypto_falcon::falcon512::{keypair,sign,open};
+use pqcrypto_falcon_wasi::falcon512::{keypair,sign,open};
+use pqcrypto_traits_wasi::sign::*;
 
-use pqcrypto_traits::sign::*;
-
-use hex::encode;
-
+use wasm_bindgen::prelude::*;
 use js_sys;
 
 
-#[no_mangle]
-pub extern "C" fn generate_falcon() -> js_sys::Uint8Array {
+#[wasm_bindgen]
+pub fn generate_falcon() -> js_sys::Uint8Array {
 
     let (public_key, secret_key) = keypair();
     
@@ -17,8 +15,8 @@ pub extern "C" fn generate_falcon() -> js_sys::Uint8Array {
 }
 
 
-#[no_mangle]
-pub extern "C" fn sign_falcon(raw_private:&[u8],data:&[u8]) -> js_sys::Uint8Array{
+#[wasm_bindgen]
+pub fn sign_falcon(raw_private:&[u8],data:&[u8]) -> js_sys::Uint8Array{
 
     //Derive private key
     let private_key=SecretKey::from_bytes(&raw_private).unwrap();
@@ -29,8 +27,8 @@ pub extern "C" fn sign_falcon(raw_private:&[u8],data:&[u8]) -> js_sys::Uint8Arra
 
 }
 
-#[no_mangle]
-pub extern "C" fn verify_falcon(raw_pubkey:&[u8],signa:&[u8]) -> js_sys::Uint8Array {
+#[wasm_bindgen]
+pub fn verify_falcon(raw_pubkey:&[u8],signa:&[u8]) -> js_sys::Uint8Array {
 
     //Derive public key & signed message
     let public_key=PublicKey::from_bytes(&raw_pubkey).unwrap();

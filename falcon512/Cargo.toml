@@ -6,15 +6,20 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-pqcrypto-falcon = "0.2.0"
-pqcrypto-traits = "0.3.4"
+pqcrypto-falcon-wasi = {version="0.2.14"}
+pqcrypto-traits-wasi = {version="0.3.4"}
 hex = "0.4.3"
 js-sys = "0.3.57"
+wasm-bindgen = "0.2.80"
+getrandom="0.2.6"
 
 [lib]
 crate-type=["cdylib"]
 name="falcon"
 
+
+[features]
+default=["getrandom/js"]
 
 ############################## OPTIMIZATION STUFF ##############################
 
@@ -33,3 +38,14 @@ incremental=true
 strip=true
 
 # No build scripts, proc macros, and their dependencies,so no more options need
+
+#Wasm settings
+#See https://rustwasm.github.io/docs/wasm-pack/cargo-toml-configuration.html
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt=false
+
+[package.metadata.wasm-pack.profile.release.wasm-bindgen]
+debug-js-glue = false
+demangle-name-section = true
+dwarf-debug-info = false
